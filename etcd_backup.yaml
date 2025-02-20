@@ -1,0 +1,167 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    kubernetes.io/metadata.name: ocp-etcd-backup
+  name: ocp-etcd-backup
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: openshift-backup
+  namespace: ocp-etcd-backup
+  labels:
+    app: openshift-backup
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-etcd-backup
+rules:
+- apiGroups: [""]
+  resources:
+     - "nodes"
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources:
+     - "pods"
+     - "pods/log"
+  verbs: ["get", "list", "create", "delete", "watch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: openshift-backup
+  labels:
+    app: openshift-backup
+subjects:
+  - kind: ServiceAccount
+    name: openshift-backup
+    namespace: ocp-etcd-backup
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-etcd-backup
+---
+apiVersion: security.openshift.io/v1
+kind: SecurityContextConstraints
+metadata:
+  name: openshift-backup-scc
+allowPrivilegedContainer: true
+runAsUser:
+  type: MustRunAsNonRoot
+seLinuxContext:
+  type: MustRunAs
+users:
+  - system:serviceaccount:ocp-etcd-backup:openshift-backup
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: allow-privileged-scc
+  namespace: ocp-etcd-backup
+subjects:
+  - kind: ServiceAccount
+    name: openshift-backup
+    namespace: ocp-etcd-backup
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:openshift:scc:privileged
+---
+kind: CronJob
+apiVersion: batch/v1
+metadata:
+  name: openshift-backup
+  namespace: ocp-etcd-backup
+  labels:
+    app: openshift-backup
+spec:
+  schedule: "56 23 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    metadata:
+      labels:
+        app: openshift-backup
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            app: openshift-backup
+        spec:
+          containers:
+            - name: backup
+              image: "registry.redhat.io/openshift4/ose-cli"
+              command:
+                - "/bin/bash"
+                - "-c"
+                - oc get no -l node-role.kubernetes.io/master --no-headers -o name | xargs -I {} --  oc debug {}  --to-namespace=ocp-etcd-backup -- bash -c 'chroot /host sudo -E /usr/local/bin/cluster-backup.sh /home/core/backup/ && chroot /host sudo -E find /home/core/backup/ -type f -mmin +"1" -delete'
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]
+                runAsNonRoot: true
+                seccompProfile:
+                  type: RuntimeDefault
+          restartPolicy: "Never"
+          terminationGracePeriodSeconds: 30
+          activeDeadlineSeconds: 500
+          dnsPolicy: "ClusterFirst"
+          serviceAccountName: "openshift-backup"
+          serviceAccount: "openshift-backup"
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generation: 1
+  labels:
+    app: openshift-backup
+  name: backup
+  namespace: ocp-etcd-backup
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  suspend: false
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: openshift-backup
+        batch.kubernetes.io/job-name: backup
+        job-name: backup
+    spec:
+      activeDeadlineSeconds: 500
+      containers:
+      - command:
+        - /bin/bash
+        - -c
+        - oc get no -l node-role.kubernetes.io/master --no-headers -o name | xargs
+          -I {} --  oc debug {}  --to-namespace=ocp-etcd-backup -- bash -c 'chroot
+          /host sudo -E /usr/local/bin/cluster-backup.sh /home/core/backup/ && chroot
+          /host sudo -E find /home/core/backup/ -type f -mmin +"1" -delete'
+        image: registry.redhat.io/openshift4/ose-cli
+        imagePullPolicy: Always
+        name: backup
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: openshift-backup
+      serviceAccountName: openshift-backup
+      terminationGracePeriodSeconds: 30
