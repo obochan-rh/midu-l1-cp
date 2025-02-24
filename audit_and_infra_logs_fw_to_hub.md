@@ -6,28 +6,32 @@ The configuration covers the following High Level Diagram use-case:
 
 ![HighLevelDiagram](./media/highleveldiagram.png)
 
+From the Logging perspective, the following components are outlined in the following Diagram:
 
+![Common Concepts](./media/log-collecting-common-concepts.png)
 ## Table of content
 - [Configuring Cluster Logging Operator to Forward Logs to an External Store in OpenShift 4](#configuring-cluster-logging-operator-to-forward-logs-to-an-external-store-in-openshift-4)
   - [Table of content](#table-of-content)
   - [Environmental details](#environmental-details)
-  - [Configuring the `openshift-cluster-logging` operator](#configuring-the-openshift-cluster-logging-operator)
+  - [Configuring the `openshift-cluster-logging` operator version 5.8.5](#configuring-the-openshift-cluster-logging-operator-version-585)
+  - [Configuring the `openshift-cluster-logging` operator version 6.0.4](#configuring-the-openshift-cluster-logging-operator-version-604)
   - [Configuring the `openshift-kafka` operator:](#configuring-the-openshift-kafka-operator)
 
 ## Environmental details
 
 - OpenShift version 4.17.15
 - Cluster logging:
-    - version 5.8.5
+    - [version 5.8.5](#configuring-the-openshift-cluster-logging-operator-version-585) 
+    - [version 6.0.4](#configuring-the-openshift-cluster-logging-operator-version-604)
     - version 6.1.1
 - AMQ-Streams:
     - version 2.8.0-0-0.1738265624.p
 
-## Configuring the `openshift-cluster-logging` operator
+## Configuring the `openshift-cluster-logging` operator version 5.8.5
 
 - Installing the `openshift-cluster-logging` operator:
 ```bash
-oc create -f 99_02_openshift-cluster-logging.yaml
+oc create -f 99_02_openshift-cluster-loggingv585.yaml
 ```
 
 The [99_02_openshift-cluster-logging.yaml](./99_02_openshift-cluster-logging.yaml) has been created to cover any versions of the CLO. 
@@ -103,6 +107,80 @@ Starting Vector process...
 2025-02-19T13:28:18.894122Z ERROR librdkafka: librdkafka: FAIL [thrd:ssl://my-kafka-cluster-kafka-bootstrap-openshift-amq-streams.ap]: ssl://my-kafka-cluster-kafka-bootstrap-openshift-amq-streams.apps.hub.5g-deployment.lab:443/bootstrap: Receive failed: error:0A000126:SSL routines::unexpected eof while reading (after 60998ms in state UP)    
 2025-02-19T13:28:18.894289Z ERROR rdkafka::client: librdkafka: Global error: BrokerTransportFailure (Local: Broker transport failure): ssl://my-kafka-cluster-kafka-bootstrap-openshift-amq-streams.apps.hub.5g-deployment.lab:443/bootstrap: Receive failed: error:0A000126:SSL routines::unexpected eof while reading (after 60998ms in state UP)    
 ```
+
+## Configuring the `openshift-cluster-logging` operator version 6.0.4
+
+- Installing the `openshift-cluster-logging` operator:
+```bash
+oc create -f 99_02_openshift-cluster-loggingv585.yaml
+```
+
+The [99_02_openshift-cluster-logging.yaml](./99_02_openshift-cluster-loggingv.yaml) has been created to cover any versions of the CLO. 
+
+
+- Verification of the `openshift-cluster-logging` operator:
+```bash
+[root@INBACRNRDL0102 ~]# oc get csv -n openshift-logging -w
+NAME                     DISPLAY                            VERSION   REPLACES                 PHASE
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   Pending
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   Pending
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   Pending
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   InstallReady
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   Installing
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   Installing
+cluster-logging.v6.0.4   Red Hat OpenShift Logging          6.0.4     cluster-logging.v6.0.3   Succeeded
+```
+
+Checking the status of the `cluster-logging-operator` pod:
+
+```bash
+[root@INBACRNRDL0102 ~]# oc get pods -n openshift-logging
+NAME                                        READY   STATUS    RESTARTS   AGE
+cluster-logging-operator-68d8db66dc-ccjjm   1/1     Running   0          3m3s
+```
+
+- Configuring the `openshift-cluster-logging` operator:
+
+```bash
+oc create -f 99_03_openshift-cluster-loggingv604.yaml
+```
+
+- Verifying the resources created:
+
+```bash
+[root@INBACRNRDL0102 ~]# oc get pods -n openshift-logging
+NAME                                        READY   STATUS    RESTARTS   AGE
+cluster-logging-operator-68d8db66dc-ccjjm   1/1     Running   0          4d17h
+instance-2qdkh                              1/1     Running   0          4m59s
+instance-f9cvn                              1/1     Running   0          4m59s
+instance-qpnhc                              1/1     Running   0          4m59s
+```
+
+- Validating that the `instance-XXXX` pods are started properly
+
+```bash
+[root@INBACRNRDL0102 ~]# oc logs -n openshift-logging instance-2qdkh
+Creating the directory used for persisting Vector state /var/lib/vector
+Starting Vector process...
+2025-02-24T09:47:02.658665Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/ovn/acl-audit-log.log
+2025-02-24T09:47:19.043348Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-multus_multus-additional-cni-plugins-w6lrq_5f21fc40-2539-453c-92de-4771622cf6ed/kube-multus-additional-cni-plugins/0.log
+2025-02-24T09:47:19.043772Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-machine-api_metal3-79b4dd4556-dnvzg_3ad68951-06a9-4a9c-9598-f1cfca944636/metal3-ramdisk-logs/0.log
+2025-02-24T09:47:19.043892Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-kube-scheduler_openshift-kube-scheduler-guard-hub-ctlplane-2.5g-deployment.lab_85006318-4746-474c-9c55-aa790fe5e19e/guard/0.log
+2025-02-24T09:47:19.044088Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-etcd_etcd-hub-ctlplane-2.5g-deployment.lab_f00729389635a8c466efffef18c30d91/etcd-ensure-env-vars/0.log
+2025-02-24T09:47:19.044125Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-etcd_etcd-hub-ctlplane-2.5g-deployment.lab_f00729389635a8c466efffef18c30d91/etcd-resources-copy/0.log
+2025-02-24T09:47:19.044133Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-etcd_etcd-hub-ctlplane-2.5g-deployment.lab_f00729389635a8c466efffef18c30d91/etcdctl/0.log
+2025-02-24T09:47:19.044496Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-kube-controller-manager_kube-controller-manager-guard-hub-ctlplane-2.5g-deployment.lab_008a51fc-a1f1-42b4-a86f-009dc5932710/guard/0.log
+2025-02-24T09:47:19.044552Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-apiserver_apiserver-57b9f5bd7c-vmcdw_68af0e02-6992-4fb9-a278-ff2d98185bd9/fix-audit-permissions/0.log
+2025-02-24T09:47:19.044641Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-kube-apiserver_kube-apiserver-guard-hub-ctlplane-2.5g-deployment.lab_76034893-a568-4724-ae4b-da1ff30142d6/guard/0.log
+2025-02-24T09:47:19.044713Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-ovn-kubernetes_ovnkube-node-n5bws_d047f224-4744-439e-bdf3-5dc42e39d213/kubecfg-setup/0.log
+2025-02-24T09:47:19.044845Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-oauth-apiserver_apiserver-8d8f95d8f-p2hb6_1a6fd327-a612-41dc-8ba7-fb2486171a84/fix-audit-permissions/0.log
+2025-02-24T09:47:19.045774Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-etcd_etcd-guard-hub-ctlplane-2.5g-deployment.lab_3840c46d-3fe6-4775-b0fd-4764e9b402c7/guard/0.log
+2025-02-24T09:47:19.045792Z  WARN vector::internal_events::file::source: Currently ignoring file too small to fingerprint. file=/var/log/pods/openshift-monitoring_node-exporter-k66k6_b2823352-6475-407d-b12d-c26126a78a19/init-textfile/0.log 
+```
+
 
 ## Configuring the `openshift-kafka` operator:
 
