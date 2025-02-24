@@ -1,0 +1,75 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: logcollector-infrastructure-logs-binding
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: collect-infrastructure-logs
+subjects:
+- kind: ServiceAccount
+  name: logcollector
+  namespace: openshift-logging
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: logcollector-audit-logs-binding
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: collect-audit-logs
+subjects:
+- kind: ServiceAccount
+  name: logcollector
+  namespace: openshift-logging
+---
+apiVersion: observability.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance
+  namespace: openshift-logging
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  filters:
+  - name: ran-du-labels
+    openshiftLabels:
+      rds: ran-mgmt
+      sitename: rds-ran-tlv2
+      siteuuid: 05e2822f-d4f6-43d8-b852-2540c325def3 #oc get clusterversion -o jsonpath='{.items[0].spec.clusterID}{"\n"}'
+    type: openshiftLabels
+  managementState: Managed
+  outputs:
+  - kafka:
+      url: tls://my-kafka-cluster-kafka-bootstrap-openshift-amq-streams.apps.hub.5g-deployment.lab:443/logs-topic
+    name: kafka-output
+    type: kafka
+    tls:
+    tls:
+      ca:
+        secretName: kafka-secret
+        key: ca-bundle.crt
+      key:
+        secretName: kafka-secret
+        key: tls.key
+      certificate:
+        secretName: kafka-secret
+        key: tls.crt 
+      #insecureSkipVerify: true    #This option is *not* recommended for production configurations.
+  pipelines:
+  - name: all-to-default
+    inputRefs:
+    - audit
+    - infrastructure
+    filterRefs:
+      - ran-du-labels
+    outputRefs:
+    - kafka-output
+  serviceAccount:
+    name: logcollector
