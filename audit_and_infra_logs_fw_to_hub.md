@@ -193,7 +193,7 @@ Starting Vector process...
 oc create -f 99_02_openshift-cluster-loggingv585.yaml
 ```
 
-The [99_02_openshift-cluster-logging.yaml](./hub-config/operators-deployment/99_02_openshift-cluster-loggingv.yaml) has been created to cover any versions of the CLO. 
+The [99_02_openshift-cluster-logging.yaml](./hub-config/operators-deployment/99_02_openshift-cluster-logging.yaml) has been created to cover any versions of the CLO. 
 
 
 - Verification of the `openshift-cluster-logging` operator:
@@ -263,9 +263,20 @@ Starting Vector process...
 
 ## Configuring the `openshift-kafka` operator
 
+- Installing the `openshift-kafka` operator:
+```bash
+oc create -f 99_02_openshift-amq-streams.yaml
+```
+The [99_02_openshift-amq-streams.yaml](./hub-config/operators-deployment/99_02_openshift-amq-streams.yaml) has been created to cover any versions of the CLO. 
+
+
+- Configuring the `openshift-kafka` operator:
+
 ```bash
 oc create -f 99_03_openshift-amq-streams.yaml
 ```
+
+The [99_03_openshift-amq-streams.yaml](./hub-config/operators-config/99_03_openshift-amq-streams.yaml) has been created to cover only version 2.8.0-0-0.1738265624.p .
 
 - Verifying the resources created:
   
@@ -287,7 +298,7 @@ my-kafka-cluster-zookeeper-2                             1/1     Running     0  
 ```bash
 [root@INBACRNRDL0102 ~]# oc get KafkaTopic -A -w
 NAMESPACE               NAME         CLUSTER            PARTITIONS   REPLICATION FACTOR   READY
-openshift-amq-streams   logs-topic   my-kafka-cluster   12           3                    True
+openshift-amq-streams   logs-topic   my-kafka-cluster   3            3                    True
 ```
 - Checking the Services:
 
