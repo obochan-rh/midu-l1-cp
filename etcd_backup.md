@@ -2,9 +2,11 @@
 
 The automated backup functionality for etcd offers support for both recurring and one-time backups. Recurring backups initiate a cron job that triggers a single backup each time the job is executed.
 
-Please note that the automation of etcd backups is currently available as a *Technology Preview* feature. For further details, refer to the [official documentation](https://docs.openshift.com/container-platform/4.17/backup_and_restore/control_plane_backup_and_restore/backing-up-etcd.html#creating-automated-etcd-backups_backup-etcd).
+Please note that the automation of etcd backups is currently available as a *Technology Preview* feature in OpenShift Cluster version 4.17. For further details, refer to the [official documentation](https://docs.openshift.com/container-platform/4.17/backup_and_restore/control_plane_backup_and_restore/backing-up-etcd.html#creating-automated-etcd-backups_backup-etcd).
 
 To avoid utilizing the `TechPreviewNoUpgrade` option, the following [etcd-backup](./etcd_backup.yaml) method has been implemented.
+
+Please note that the automation of etcd backup is currently available as a *General Available* feature in OpenShift Cluster version 4.18. For further details, refer to the [official documentation](https://docs.openshift.com/container-platform/4.18/backup_and_restore/control_plane_backup_and_restore/backing-up-etcd.html)
 
 ## Table of Content
 
