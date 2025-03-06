@@ -80,6 +80,16 @@ mirror:
       maxVersion: 'v4.16.3-rhodf'
       channels:
       - name: 'stable-4.16'
+    - name: 'quay-operator'
+      minVersion: 'v3.13.3'
+      maxVersion: 'v3.13.3'
+      channels:
+      - name: 'stable-3.13'
+    - name: 'amq-streams'
+      minVersion: 'amqstreams.v2.9.0-0'
+      maxVersion: 'amqstreams.v2.9.0-0'
+      channels:
+      - name: 'stable'
   additionalImages:
   - name: registry.redhat.io/ubi9/ubi:latest
   - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.16.0
