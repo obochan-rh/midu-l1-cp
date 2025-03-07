@@ -86,10 +86,15 @@ mirror:
       channels:
       - name: 'stable-3.13'
     - name: 'amq-streams'
-      minVersion: 'amqstreams.v2.9.0-0'
-      maxVersion: 'amqstreams.v2.9.0-0'
+      minVersion: 'v2.9.0-0'
+      maxVersion: 'v2.9.0-0'
       channels:
       - name: 'stable'
+    - name: 'redhat-oadp-operator'
+      minVersion: 'v1.4.3'
+      maxVersion: 'v1.4.3'
+      channels:
+      - name: 'stable-1.4'
   additionalImages:
   - name: registry.redhat.io/ubi9/ubi:latest
   - name: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.16.0
