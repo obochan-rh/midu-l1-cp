@@ -2,8 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonAnnotations:
   argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-generators:
-  - 99_02_observability_storage.yaml
+# this is not required its marked for removal
+#generators:
+#  - 99_02_observability_storage.yaml
 resources:
   - 00_rhacm_config.yaml
   - 01_ai_config.yaml

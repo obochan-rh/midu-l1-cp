@@ -545,6 +545,10 @@ And store them to your AirGapped HTTP(s) Server, this content its required while
 
 2 directories, 7 files
 ```
+
+> [!NOTE]
+> Ensure to include in your `openshift` directory the `98-var-lib-etcd.yaml` with the purpose of allocating the [etcd database](https://docs.openshift.com/container-platform/4.16/scalability_and_performance/recommended-performance-scale-practices/recommended-etcd-practices.html#move-etcd-different-disk_recommended-etcd-practices) to a dedicated partition in order to avoid performance issues with the cluster.
+
 Explaining all the parameters of the [install-config.yaml](./workingdir/install-config.yaml), you can use the following approach:
 ```bash
 # ./openshift-install explain installconfig.platform.baremetal
