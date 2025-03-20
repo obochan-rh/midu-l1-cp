@@ -1,11 +1,14 @@
 # Creating a custom file-based catalog image
 
-
+| Version | Date       | Author    | Description                           |
+|---------|------------|-----------|---------------------------------------|
+| 1.0     | 2025-03-20 | Mihai IDU | Initial draft                         |
 
 ## Table of Content
 - [Creating a custom file-based catalog image](#creating-a-custom-file-based-catalog-image)
   - [Table of Content](#table-of-content)
   - [Prerequisites](#prerequisites)
+  - [Scope](#scope)
   - [Generating the Dockerfile](#generating-the-dockerfile)
   - [Ensure to Download the opm binary to the host:](#ensure-to-download-the-opm-binary-to-the-host)
   - [Render the index.yaml file content from redhat-operator-index and certified-operator-index :](#render-the-indexyaml-file-content-from-redhat-operator-index-and-certified-operator-index-)
@@ -20,6 +23,7 @@
   - [Validating the AirGapped Registry content before](#validating-the-airgapped-registry-content-before)
   - [Imageset-config.yaml file content:](#imageset-configyaml-file-content)
   - [Mirroring result:](#mirroring-result)
+  - [Resources:](#resources)
 
 ## Prerequisites
 
@@ -27,7 +31,9 @@
 - You have podman version 1.9.3+.
 - A bundle image is built and pushed to a registry that supports Docker v2-2.
 
+## Scope
 
+The scope of this document its to outline the method of procedure of simplifying the maintenance and operability of the `catalogsource` which is merging content from different sources.
 
 ## Generating the Dockerfile
 
@@ -325,9 +331,123 @@ In the next section we are going to outline the AirGapped mirroring result with 
 ## Mirroring result:
 
 
+```bash
+$ DOCKER_CONFIG=/root/.docker/; ./oc-mirror --config=./imageset-config.yaml docker://infra.5g-deployment.lab:8443/custom-operator-index
+
+...deprecated..
+
+Rendering catalog image "infra.5g-deployment.lab:8443/custom-operator-index/midu/custom-operator-index:v4.17" with file-based catalog 
+Writing image mapping to oc-mirror-workspace/results-1742483435/mapping.txt
+Writing CatalogSource manifests to oc-mirror-workspace/results-1742483435
+Writing ICSP manifests to oc-mirror-workspace/results-1742483435
+deleting directory /tmp/render-unpack-2292595207
 ```
 
+As a result of the mirroring procedure:
+
+```bash
+$ tree oc-mirror-workspace/results-1742483435
+oc-mirror-workspace/results-1742483435
+├── catalogSource-cs-custom-operator-index.yaml
+├── charts
+├── imageContentSourcePolicy.yaml
+├── mapping.txt
+└── release-signatures
+
+2 directories, 3 files
 ```
 
-* Resources: [https://docs.redhat.com/en/documentation/openshift\_container\_platform/4.17/html/extensions/catalogs\#olm-creating-fb-catalog-image\_creating-catalogs](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/extensions/catalogs#olm-creating-fb-catalog-image_creating-catalogs) 
+The `catalogsource` content:
+
+```bash
+[root@inbacrnrdl0100 ~]# cat oc-mirror-workspace/results-1742483435/catalogSource-cs-custom-operator-index.yaml 
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: cs-custom-operator-index
+  namespace: openshift-marketplace
+spec:
+  image: infra.5g-deployment.lab:8443/custom-operator-index/midu/custom-operator-index:v4.17
+  sourceType: grpc
+  updateStrategy:           # The scope of this section is to allign with the RDS
+    registryPoll:           #
+        interval: 1h        #
+```
+
+The `ImageContentSourcePolicy` content:
+
+```bash
+[root@inbacrnrdl0100 ~]# cat oc-mirror-workspace/results-1742483435/imageContentSourcePolicy.yaml 
+---
+apiVersion: operator.openshift.io/v1alpha1
+kind: ImageContentSourcePolicy
+metadata:
+  name: generic-0
+spec:
+  repositoryDigestMirrors:
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/openshift-gitops-1
+    source: registry.redhat.io/openshift-gitops-1
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/openshift4
+    source: registry.redhat.io/openshift4
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/openshift-logging
+    source: registry.redhat.io/openshift-logging
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/multicluster-engine
+    source: registry.redhat.io/multicluster-engine
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/ubi9
+    source: registry.redhat.io/ubi9
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/rhacm2
+    source: registry.redhat.io/rhacm2
+---
+apiVersion: operator.openshift.io/v1alpha1
+kind: ImageContentSourcePolicy
+metadata:
+  labels:
+    operators.openshift.org/catalog: "true"
+  name: operator-0
+spec:
+  repositoryDigestMirrors:
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/intel
+    source: registry.connect.redhat.com/intel
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/openshift-logging
+    source: registry.redhat.io/openshift-logging
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/rhel9
+    source: registry.redhat.io/rhel9
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/rhceph
+    source: registry.redhat.io/rhceph
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/openshift4
+    source: registry.redhat.io/openshift4
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/rhacm2
+    source: registry.redhat.io/rhacm2
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/odf4
+    source: registry.redhat.io/odf4
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/rh-sso-7
+    source: registry.redhat.io/rh-sso-7
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/openshift-gitops-1
+    source: registry.redhat.io/openshift-gitops-1
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/rhel8
+    source: registry.redhat.io/rhel8
+  - mirrors:
+    - infra.5g-deployment.lab:8443/custom-operator-index/multicluster-engine
+    source: registry.redhat.io/multicluster-engine
+```
+
+## Resources: 
+
+- [OlmCreatingFileBaseCatalogImage](https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/extensions/catalogs#olm-creating-fb-catalog-image_creating-catalogs) 
 
