@@ -32,6 +32,6 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "2"
 spec:
   name: redhat-oadp-operator
-  source: cs-redhat-operator-index
+  source: redhat-operators
   sourceNamespace: openshift-marketplace
   installPlanApproval: Automatic

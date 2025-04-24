@@ -39,6 +39,6 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "2"
 spec:
   name: cluster-logging
-  source: cs-redhat-operator-index
+  source: redhat-operators
   sourceNamespace: openshift-marketplace
   installPlanApproval: Automatic

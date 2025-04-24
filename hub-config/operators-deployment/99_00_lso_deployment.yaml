@@ -34,5 +34,5 @@ metadata:
 spec:
   installPlanApproval: Automatic
   name: local-storage-operator
-  source: cs-redhat-operator-index
+  source: redhat-operators
   sourceNamespace: openshift-marketplace

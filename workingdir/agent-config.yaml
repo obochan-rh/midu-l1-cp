@@ -1,113 +1,147 @@
 apiVersion: v1beta1
 kind: AgentConfig
 metadata:
-  name: b11oe21mno
-rendezvousIP: 10.17.113.100
+  name: samsungRan
+  rendezvousIP: 192.168.40.72 
 additionalNTPSources:
-  - 10.16.32.98
-  - 10.16.32.99
-  - 10.16.32.100
+  - 192.168.40.10
 hosts: 
-  - hostname: master0.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+  - hostname: master1.ran.samsung.bos2.lab
     role: master
     interfaces:
-      - name: ens43f0
-        macAddress: b4:96:91:d1:51:d0
+      - name: ens1f3 
+        macAddress: B4:96:91:A9:B0:D3
     rootDeviceHints: 
       deviceName: "/dev/disk/by-path/pci-0000:00:11.5-ata-2.0"
     networkConfig: 
       interfaces:
-        - name: ens43f0
+        - name: ens1f3
           type: ethernet
           state: up
-          mac-address: b4:96:91:d1:51:d0
+          mac-address: B4:96:91:A9:B0:D3
           ipv4:
             enabled: true
             dhcp: false
           ipv6: 
             enabled: false
-          mtu: 9000
+          mtu: 1514
           ethernet:
             auto-negotiation: true
             duplex: full
-        - name: ens43f0.1501
-          type: vlan
+        - name: ens1f3
           state: up
           ipv4:
             enabled: true
             address:
-              - ip: 10.17.113.100
-                prefix-length: 28
+              - ip: 192.179.40.72
+                prefix-length: 24
             dhcp: false
-          mtu: 1500
-          vlan:
-            base-iface: ens43f0
-            id: 1501
+          mtu: 1500 
       dns-resolver:
         config:
           server:
-            - 10.20.176.11
+            - 192.168.254.20
+            - 192.168.254.21
       routes:
         config:
           - destination: 0.0.0.0/0
-            next-hop-address: 10.17.113.97
-            next-hop-interface: ens43f0.1501
+            next-hop-address: 192.168.40.1
+            next-hop-interface: ens1f3
             table-id: 254
-  - hostname: master1.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+  - hostname: master2.ran.samsung.bos2.lab
     role: master
     interfaces:
       - name: ens43f0
-        macAddress: b4:96:91:d0:f0:a0
+        macAddress: B4:96:91:A9:B1:4B
     rootDeviceHints:
       deviceName: "/dev/disk/by-path/pci-0000:00:11.5-ata-2.0"
     networkConfig: 
       interfaces:
-        - name: ens43f0
+        - name: ens1f3
           type: ethernet
           state: up
-          mac-address: b4:96:91:d0:f0:a0
-          ipv4:
+          mac-address: B4:96:91:A9:B1:4B
+         ipv4:
             enabled: true
             dhcp: false
           ipv6:
             enabled: false
-          mtu: 9000
+          mtu: 1514
           ethernet:
             auto-negotiation: true
             duplex: full
-        - name: ens43f0.1501
-          type: vlan
+        - name: ens1f3
           state: up
           ipv4:
             enabled: true
             address:
-              - ip: 10.17.113.101
-                prefix-length: 28
+              - ip: 192.168.40.73
+                prefix-length: 24
             dhcp: false
           mtu: 1500
-          vlan:
-            base-iface: ens43f0
-            id: 1501
       dns-resolver:
         config:
           server:
-            - 10.20.176.11
+            - 192.168.254.20
+            - 192.168.254.21
       routes:
         config:
           - destination: 0.0.0.0/0
-            next-hop-address: 10.17.113.97
-            next-hop-interface: ens43f0.1501
+            next-hop-address: 192.168.40.1
+            next-hop-interface: ens1f3
             table-id: 254
-  - hostname: master2.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+  - hostname: master3.ran.samsung.bos2.lab
     role: master
     interfaces:
-      - name: ens43f0
-        macAddress: b4:96:91:d1:2f:60
+      - name: ens1f3
+        macAddress: B4:96:91:A9:B1:7F
     rootDeviceHints:
-      deviceName: "/dev/disk/by-path/pci-0000:00:11.5-ata-2.0"
+      deviceName: "/dev/disk/by-path/pci-0000:65:00.0-scsi-0:2:0:0"
     networkConfig:
       interfaces:
-        - name: ens43f0
+        - name: ens1f3
+          type: ethernet
+          state: up
+          mac-address: B4:96:91:A9:B1:7F
+         ipv4:
+            enabled: true
+            dhcp: false
+          ipv6:
+            enabled: false
+          mtu: 1514
+          ethernet:
+            auto-negotiation: true
+            duplex: full
+        - name: ens1f3  
+          state: up
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.40.74
+                prefix-length: 24
+            dhcp: false
+          mtu: 1500
+      dns-resolver:
+        config:
+          server:
+            - 192.168.254.20
+            - 192.168.254.21
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 192.168.40.1
+            next-hop-interface: ens1f3
+            table-id: 254
+  - hostname: master3.ran.samsung.bos2.lab
+    role: master
+    interfaces:
+      - name: ens1f3
+        macAddress: b4:96:91:d1:2f:60
+    rootDeviceHints:
+            deviceName: "/dev/disk/by-path/pci-0000:65:00.0-scsi-0:2:0:0"
+    networkConfig:
+      interfaces:
+        - name: ens1f3
           type: ethernet
           state: up
           mac-address: b4:96:91:d1:2f:60
@@ -116,12 +150,11 @@ hosts:
             dhcp: false
           ipv6:
             enabled: false
-          mtu: 9000
+          mtu: 1514
           ethernet:
             auto-negotiation: true
             duplex: full
-        - name: ens43f0.1501
-          type: vlan
+        - name: ens1f3
           state: up
           ipv4:
             enabled: true
@@ -129,62 +162,19 @@ hosts:
               - ip: 10.17.113.102
                 prefix-length: 28
             dhcp: false
-          mtu: 1500
+          mtu: 1514
           vlan:
-            base-iface: ens43f0
-            id: 1501
+            base-iface: ens1f3
+            id: 1500
       dns-resolver:
         config:
           server:
-            - 10.20.176.11
+            - 192.168.254.20
+            - 192.168.254.21
       routes:
         config:
           - destination: 0.0.0.0/0
-            next-hop-address: 10.17.113.97
-            next-hop-interface: ens43f0.1501
+            next-hop-address: 192.168.40.1
+            next-hop-interface: ens1f3
             table-id: 254
-  - hostname: worker0.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
-    role: worker
-    interfaces:
-      - name: ens43f0
-        macAddress: b4:96:91:d0:d4:d0
-    rootDeviceHints:
-      deviceName: "/dev/disk/by-path/pci-0000:00:11.5-ata-2.0"
-    networkConfig:
-      interfaces:
-        - name: ens43f0
-          type: ethernet
-          state: up
-          mac-address: b4:96:91:d0:d4:d0
-          ipv4:
-            enabled: true
-            dhcp: false
-          ipv6:
-            enabled: false
-          mtu: 9000
-          ethernet:
-            auto-negotiation: true
-            duplex: full
-        - name: ens43f0.1501
-          type: vlan
-          state: up
-          ipv4:
-            enabled: true
-            address:
-              - ip: 10.17.113.103
-                prefix-length: 28
-            dhcp: false
-          mtu: 1500
-          vlan:
-            base-iface: ens43f0
-            id: 1501
-      dns-resolver:
-        config:
-          server:
-            - 10.20.176.11
-      routes:
-        config:
-          - destination: 0.0.0.0/0
-            next-hop-address: 10.17.113.97
-            next-hop-interface: ens43f0.1501
-            table-id: 254
+

@@ -31,6 +31,6 @@ metadata:
     ran.openshift.io/ztp-deploy-wave: "2"
 spec:
   name: quay-operator
-  source: cs-redhat-operator-index
+  source: redhat-operators
   sourceNamespace: openshift-marketplace
   installPlanApproval: Automatic

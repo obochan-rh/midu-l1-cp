@@ -1,0 +1,38 @@
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentServiceConfig
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    unsupported.agent-install.openshift.io/assisted-service-configmap: 'assisted-service-config'
+  name: agent
+  namespace: multicluster-engine
+spec:
+  databaseStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: ocs-storagecluster-cephfs
+  filesystemStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: ocs-storagecluster-cephfs
+  imageStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: ocs-storagecluster-cephfs
+  mirrorRegistryRef:
+    name: custom-registries
+  osImages:
+  - cpuArchitecture: x86_64
+    openshiftVersion: "4.16"
+    rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.16/latest/rhcos-4.16.36-x86_64-live-rootfs.x86_64.img 
+    url: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.16/latest/rhcos-4.16.36-x86_64-live.x86_64.iso
+    version: 416.94.202410292028-0

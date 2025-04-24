@@ -32,6 +32,6 @@ metadata:
 spec:
   installPlanApproval: Automatic
   name: odf-operator
-  source: cs-redhat-operator-index
+  source: redhat-operators
   sourceNamespace: openshift-marketplace
 

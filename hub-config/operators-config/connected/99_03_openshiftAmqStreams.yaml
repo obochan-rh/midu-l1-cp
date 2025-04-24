@@ -1,0 +1,107 @@
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: my-kafka-cluster
+  annotations:
+    metallb.universe.tf/address-pool: default
+    argocd.argoproj.io/sync-wave: "2"
+  namespace: openshift-amq-streams
+spec:
+  kafka:
+    config:
+      auto.create.topics.enable: false
+      default.replication.factor: 1
+      inter.broker.protocol.version: '3.7'
+      message.max.bytes: 369295618
+      min.insync.replicas: 1
+      offsets.topic.replication.factor: 1
+      transaction.state.log.min.isr: 1
+      transaction.state.log.replication.factor: 1
+    storage:
+      volumes:
+        - class: lvms-vg1 #ocs-storagecluster-ceph-rbd
+          deleteClaim: true
+          id: 0
+          size: '50Gi'
+          type: persistent-claim
+      type: jbod
+    listeners:
+      - name: plain
+        port: 9092
+        tls: false
+        type: internal
+      - name: tls
+        port: 9093
+        tls: true
+        type: internal
+      - name: external
+        port: 9094
+        tls: true
+        type: route
+    replicas: 3
+    version: 3.7.0
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+  zookeeper:
+    storage:
+      #class: ocs-storagecluster-ceph-rbd
+      class: lvms-vg1
+      deleteClaim: true
+      size: '40Gi'
+      type: persistent-claim
+    replicas: 3
+---
+# Verify Kafka Topics
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: logs-topic
+  namespace: openshift-amq-streams
+  labels:
+    strimzi.io/cluster: my-kafka-cluster
+spec:
+  partitions: 3
+  replicas: 3
+  config:
+    retention.ms: 180000
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/sync-wave: "10"
+  name: kafka-secret
+  namespace: openshift-amq-streams 
+spec:
+  template:
+    spec:
+      containers:
+      - image: registry.redhat.io/openshift4/ose-cli:latest 
+        command:
+        - /bin/bash
+        - -c
+        - |
+         
+          oc wait kafka my-kafka --for=condition=ready=true -n openshift-amq-streams
+
+          mkdir /tmp/kafka
+          
+          oc -n openshift-amq-streams get secret my-kafka-cluster-cluster-ca-cert -o jsonpath='{.data.ca\.crt}' | base64 -d > /tmp/kafka/ca-bundle.crt
+
+          oc -n openshift-amq-streams get secret my-kafka-cluster-clients-ca -o jsonpath='{.data.ca\.key}' | base64 -d > /tmp/kafka/tls.key
+          
+          oc -n openshift-amq-streams get secret my-kafka-cluster-clients-ca-cert -o jsonpath='{.data.ca\.crt}' | base64 -d > /tmp/kafka/tls.crt
+                                                 
+          oc -n openshift-logging delete secret kafka-secret
+
+          oc -n openshift-logging create secret generic kafka-secret --from-file=/tmp/kafka/
+
+        name: kafka-secret
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      serviceAccount: admin-user
+      serviceAccountName: admin-user
+      terminationGracePeriodSeconds: 400

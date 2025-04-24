@@ -1,0 +1,43 @@
+apiVersion: v1
+baseDomain: ran.samsung.bos2.lab
+compute:
+- architecture: amd64 
+  hyperthreading: Enabled
+  name: worker
+  replicas: 1
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  replicas: 3
+metadata:
+  name: saumsungran
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 192.168.40.0/25
+  networkType: OVNKubernetes 
+  serviceNetwork:
+  - 172.30.0.0/16
+platform: 
+  baremetal:
+    apiVIPs:
+    - 192.168.40.70
+    ingressVIPs:
+    - 192.168.40.71
+pullSecret: '{"auths":{"cloud.openshift.com":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K29jbV9hY2Nlc3NfNjhjYmIwZGUyYmZiNDZhMDg5NzlkM2RiYWVlMGFmY2M6RzFFSVFURVI4WFdTTVBWTVpHSk85TDZJVUpDSDBDVUhYRkRYOVM4V1lNWVZVMzRORldQSzY5VzBMT05NV0c4RQ==","email":"obochan@redhat.com"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K29jbV9hY2Nlc3NfNjhjYmIwZGUyYmZiNDZhMDg5NzlkM2RiYWVlMGFmY2M6RzFFSVFURVI4WFdTTVBWTVpHSk85TDZJVUpDSDBDVUhYRkRYOVM4V1lNWVZVMzRORldQSzY5VzBMT05NV0c4RQ==","email":"obochan@redhat.com"},"registry.connect.redhat.com":{"auth":"fHVoYy1wb29sLTFhNTc4ZTE4LTNiY2ItNGE0YS05ODAxLWFmMDEwMjE5ODE5YzpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSmhaRGsyTmpobE0yTXlZVE0wT1RrM09EZGtNRGt5TVRRMU1XSm1Zamt6TlNKOS5YeXVKSXNPeFl5UV9qV3dzbFhZOHE2Vk9UaW9QNGl5bjgySFpMYW1qS0RfaHk1bmN4SU4tTmdwTHk0ZGY5ZkhDQ29uVGpFdDhzMkdlbVlYajZxNFQ0bjBxU0RjbTlLN3BoaFZVdmdMcDBDQmtmdS1kaGJ4XzBDMmVNRUdCS2RlR0QyX1NwcTU3WnhkQ3dJcGViMElGcjhIVlJ2d1hha3JQWU43TXJOQWlTMm9NX1p6a3JQdDRYelJwXzQ2enZxYWdjYXpOclNnd0I0SU1HMkhSRkxPSzNGSFF0Tjd6QzhFRGlmNW9Kb3VpbG5FYWpZanlUSFFabmx3ZWhScFI0ZmlFYUJnLTBLcFh6Nzl3WVRwdkdNNlItVzVwbC03a0J0d2FucjBjdFhrbHZMRWpvRWsyb3JyOFJ6WnNCaEdtLTVkMW5wNUs4TWRmVDVfSnFQUVRlRXlaNWJFeHpUckQ3ZEx3MkxkNU9HblpBLWlfMmQtbE9GOWVkQVBjV20yU05nUDFoSGU2VmRzc2xnRFVWNnlvdUhMTTVod1l6OGppX0FINmRvb1oybmxHM3I1azVVT2tQLV9GdzNnZHEyOEdMbmhzQjE0a0laZ01zcEpYQm5xcERSRzkzQTh2c1QyS003NkUxTlpwRTVocjhzSFZoQ3hlNmJoR1BIUE05eS1yeFV0Xy1KR0FPeUp6RmIxWHZEQ0ZsTGlFVjdfa3ZkVk9ic3JSZFhmLTdaaVE0ZC1GZldsUmtPcnh1bU5lOElFdndhV1lNbXVFdkNXZzJYNmVJNDhsWHhudDdZUXVSaGJPbjFOdi03TU5ybVNyQTRIMHp2ZjVGTDdWbHZkX0xfMVRuUW5jMkZReTlESzBMTjJDRzgtXzBpVEdSenF6WjNMU1hfUmI3N2RlYkFpWkJIQQ==","email":"obochan@redhat.com"},"registry.redhat.io":{"auth":"fHVoYy1wb29sLTFhNTc4ZTE4LTNiY2ItNGE0YS05ODAxLWFmMDEwMjE5ODE5YzpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSmhaRGsyTmpobE0yTXlZVE0wT1RrM09EZGtNRGt5TVRRMU1XSm1Zamt6TlNKOS5YeXVKSXNPeFl5UV9qV3dzbFhZOHE2Vk9UaW9QNGl5bjgySFpMYW1qS0RfaHk1bmN4SU4tTmdwTHk0ZGY5ZkhDQ29uVGpFdDhzMkdlbVlYajZxNFQ0bjBxU0RjbTlLN3BoaFZVdmdMcDBDQmtmdS1kaGJ4XzBDMmVNRUdCS2RlR0QyX1NwcTU3WnhkQ3dJcGViMElGcjhIVlJ2d1hha3JQWU43TXJOQWlTMm9NX1p6a3JQdDRYelJwXzQ2enZxYWdjYXpOclNnd0I0SU1HMkhSRkxPSzNGSFF0Tjd6QzhFRGlmNW9Kb3VpbG5FYWpZanlUSFFabmx3ZWhScFI0ZmlFYUJnLTBLcFh6Nzl3WVRwdkdNNlItVzVwbC03a0J0d2FucjBjdFhrbHZMRWpvRWsyb3JyOFJ6WnNCaEdtLTVkMW5wNUs4TWRmVDVfSnFQUVRlRXlaNWJFeHpUckQ3ZEx3MkxkNU9HblpBLWlfMmQtbE9GOWVkQVBjV20yU05nUDFoSGU2VmRzc2xnRFVWNnlvdUhMTTVod1l6OGppX0FINmRvb1oybmxHM3I1azVVT2tQLV9GdzNnZHEyOEdMbmhzQjE0a0laZ01zcEpYQm5xcERSRzkzQTh2c1QyS003NkUxTlpwRTVocjhzSFZoQ3hlNmJoR1BIUE05eS1yeFV0Xy1KR0FPeUp6RmIxWHZEQ0ZsTGlFVjdfa3ZkVk9ic3JSZFhmLTdaaVE0ZC1GZldsUmtPcnh1bU5lOElFdndhV1lNbXVFdkNXZzJYNmVJNDhsWHhudDdZUXVSaGJPbjFOdi03TU5ybVNyQTRIMHp2ZjVGTDdWbHZkX0xfMVRuUW5jMkZReTlESzBMTjJDRzgtXzBpVEdSenF6WjNMU1hfUmI3N2RlYkFpWkJIQQ==","email":"obochan@redhat.com"}}}' 
+sshKey: 'ssh-rsa AAAA<redacted> user@work'
+imageContentSources:
+  - mirrors:
+    - quay-2.l1pz-espoo.example.com/unbox/openshift/release
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+  - mirrors:
+    - quay-2.l1pz-espoo.example.com/unbox/openshift/release-images
+    source: quay.io/openshift-release-dev/ocp-release
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  <redacted>
+  -----END CERTIFICATE-----
+

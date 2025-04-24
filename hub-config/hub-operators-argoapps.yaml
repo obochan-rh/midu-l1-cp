@@ -11,8 +11,8 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: hub-config/operators-deployment
-    repoURL: 'git@10.23.223.72:/home/git/acm.git'
-    targetRevision: master
+    repoURL: 'https://github.com/obochan-rh/midu16/l1-cp.git'
+    targetRevision: ofersamsungran-test 
   project: default
   syncPolicy:
     automated:
@@ -36,9 +36,9 @@ spec:
     namespace: ''
     server: 'https://kubernetes.default.svc'
   source:
-    path: hub-config/operators-config
-    repoURL: 'git@10.23.223.72:/home/git/acm.git'
-    targetRevision: master
+    path: hub-config/operators-config/connected
+    repoURL: 'https://github.com/obochan-rh/midu16/l1-cp.git'
+    targetRevision: ofersamsungran-test 
   project: default
   syncPolicy:
     automated:

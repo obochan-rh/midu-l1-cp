@@ -31,5 +31,5 @@ metadata:
 spec:
   installPlanApproval: Automatic
   name: advanced-cluster-management
-  source: cs-redhat-operator-index
+  source: redhat-operators
   sourceNamespace: openshift-marketplace

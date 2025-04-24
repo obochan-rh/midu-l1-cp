@@ -1,0 +1,67 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: logcollector-infrastructure-logs-binding
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: collect-infrastructure-logs
+subjects:
+- kind: ServiceAccount
+  name: logcollector
+  namespace: openshift-logging
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: logcollector-audit-logs-binding
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: collect-audit-logs
+subjects:
+- kind: ServiceAccount
+  name: logcollector
+  namespace: openshift-logging
+---
+apiVersion: "logging.openshift.io/v1"
+kind: "ClusterLogging"
+metadata:
+  name: "instance"
+  namespace: "openshift-logging"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"    
+spec:
+  managementState: "Managed"
+  collection:
+    type: "vector"
+---
+apiVersion: logging.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance
+  namespace: openshift-logging
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "10"
+spec:
+  outputs:
+  - name: kafka-output
+    url: tls://my-kafka-cluster-kafka-bootstrap-openshift-amq-streams.apps.hub.5g-deployment.lab:443/logs-topic
+    type: kafka
+    secret:
+      name: kafka-secret
+  pipelines:
+  - name: all-to-default
+    inputRefs:
+    - audit
+    - infrastructure
+    outputRefs:
+    - kafka-output
+    labels:
+      logType: "infra"
+

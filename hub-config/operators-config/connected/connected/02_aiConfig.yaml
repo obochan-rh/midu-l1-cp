@@ -1,0 +1,243 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: custom-registries
+  namespace: multicluster-engine
+  labels:
+    app: assisted-service
+data:
+  ca-bundle.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIF6zCCA9OgAwIBAgIUTy1sggOk1oAKZBvwlKbVFjId/30wDQYJKoZIhvcNAQEN
+    BQAwgYQxCzAJBgNVBAYTAkNOMREwDwYDVQQIDAhIZWxzaW5raTERMA8GA1UEBwwI
+    SGVsc2lua2kxEDAOBgNVBAoMB2V4YW1wbGUxETAPBgNVBAsMCFBlcnNvbmFsMSow
+    KAYDVQQDDCFoYXJib3IyLmpvaW50bGFiLmZ4Lm5zbi1yZG5ldC5uZXQwHhcNMjQw
+    NzIzMDQyODQ3WhcNMzQwNzIxMDQyODQ3WjCBhDELMAkGA1UEBhMCQ04xETAPBgNV
+    BAgMCEhlbHNpbmtpMREwDwYDVQQHDAhIZWxzaW5raTEQMA4GA1UECgwHZXhhbXBs
+    ZTERMA8GA1UECwwIUGVyc29uYWwxKjAoBgNVBAMMIWhhcmJvcjIuam9pbnRsYWIu
+    ZngubnNuLXJkbmV0Lm5ldDCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIB
+    AMj6Y0z8S9f9Fn/ESAK6Q7SkcCN+TKaC1AfqZjgVy7eR9L6K/7KKwzd02sUcHwDy
+    ALCO9rkFxW/Pix2whuIovtPXO2CnbVoHiBHC/A5fe7w0mahXC3kPI5AeHIyqeVVu
+    mif8f+y8vmZV7VujhpCb3sYaA4Z9hfXHuXAhaPoGjGLcZRRLtSbr1V129BO7DVV7
+    KVkyrLByBf/nXW9DoYVrFWYercsicCx7j8XKGz/bEClNFNXxSgphpETJO4LEG+tp
+    bG3lsBkI0pd6HJVccbuRSKVr09W+L2KfPX+m4p+9wSdGZgDhh6wrC5iohe32R4n3
+    9ItGWm4YmbRU+phftF8FnMc4VD6Tmc4SDMvC14ARhd7nzKw8bp/+tMSZXspU9sIR
+    qYONmrcGeRZhotKZYMSlxz+0ey5FVNy/epqmFgh0tmvN6BorQbjgWPsFGAfI3B+o
+    NT8lGwgvF7Vzewtjyjr9sB2F3t28hVv1TwpgIVb1Fb3HpiLBnNYEirHjyWRC4Bc1
+    eZk3+yYAd3SyMZIiIu9dWJ/e3GqQej2nInq5vUPriFzKx5BvZ9o72WFyh9TrqU+F
+    YAuhkaMluv8hOgb07/d7Hs1vuacjeCeWcrpazO1hHEJiQhyYOOwS8pqSdS61il19
+    9830A9iBwIT0qvQXi7GDEwxBWJ7RH/hi0lIZRecry73PAgMBAAGjUzBRMB0GA1Ud
+    DgQWBBTd6skSbvJ7XqogK/cPQqqEitdAETAfBgNVHSMEGDAWgBTd6skSbvJ7Xqog
+    K/cPQqqEitdAETAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBDQUAA4ICAQBw
+    DAEPsBVefmZJxeN4sz0RPRV/Z/cEHo2mrOqIzsoIVKV/86T5eX2ClqCfX31fqOp+
+    E/ELFy5BMXOUBkso+Lk/sZ+Z0Nh39S1Dqwe8Ph/8/kakJ2MIHbaLVtnvqfgnTYg4
+    ndczuAv3lFVZEvsvZMXM6sFsXsKwQ5Jh4HyisfYmCOSXOCq5boUClcQjgdXRQYQo
+    Dxf9dCiajF9fSAKI3hh0RQ/z9ypTCaDHRBYZRCUWepi+pVRvUyrS4kmAt5Ygjbe+
+    SLG94QIeYGKP+wRJOo5vooML/AUaDLsw2JxbmhN4krADqSWwd8ZOruchbY6znblC
+    RPwscpyxyp19fPnAtX89GcpIjj7brscw5CwctN1oHOkR/mXQUmNvELPZGuujcqyQ
+    2NeQQzFovhG1NtzPHaQ0FAYXow38ii8q4NWv7Yin+9cstSHY+FG4y3iDo3n7r/U8
+    kUkfeLORlLVpuKVx5jIcjuxbyOjkOyFBOAVXVMEOgt1fRmYxyVTIDftQ9LQRzc/B
+    xV60mA2zKRDJrHb9nDI5MWrVMcyImBh2LFeILUg1BTzpE0VnUzcToyd80oU/bkw4
+    nXXU4z0ARHpExbS7gTme86aDMytV6/zHAyU2yQndadfvnsBoldOYCAob/Ax/V1nR
+    6UfhhTTE9sSCPAJ5zV20+4zfwTpmvwWSNVsTz/a5zQ==
+    -----END CERTIFICATE-----
+  registries.conf: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/rhel8"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/rhel8"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/rh-sso-7"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/rh-sso-7"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/rhacm2"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/rhacm2"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/openshift4"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/openshift4"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/odf4"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/odf4"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/multicluster-engine"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/multicluster-engine"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/openshift-gitops-1"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/openshift-gitops-1"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/openshift-logging"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/openshift-logging"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/rhceph"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/rhceph"
+
+    [[registry]]
+    prefix = ""
+    location = "quay.io/openshift-release-dev/ocp-release"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/openshift/release-images"
+
+    [[registry]]
+    prefix = ""
+    location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+    mirror-by-digest-only = true
+
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/openshift"
+    [[registry.mirror]]
+      location = "registry.example:443/ocp4-release/openshift/release"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: image-service-additional-ca
+  namespace: multicluster-engine
+  labels:
+    app: assisted-service
+data:
+  tls.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIF6zCCA9OgAwIBAgIUTy1sggOk1oAKZBvwlKbVFjId/30wDQYJKoZIhvcNAQEN
+    BQAwgYQxCzAJBgNVBAYTAkNOMREwDwYDVQQIDAhIZWxzaW5raTERMA8GA1UEBwwI
+    SGVsc2lua2kxEDAOBgNVBAoMB2V4YW1wbGUxETAPBgNVBAsMCFBlcnNvbmFsMSow
+    KAYDVQQDDCFoYXJib3IyLmpvaW50bGFiLmZ4Lm5zbi1yZG5ldC5uZXQwHhcNMjQw
+    NzIzMDQyODQ3WhcNMzQwNzIxMDQyODQ3WjCBhDELMAkGA1UEBhMCQ04xETAPBgNV
+    BAgMCEhlbHNpbmtpMREwDwYDVQQHDAhIZWxzaW5raTEQMA4GA1UECgwHZXhhbXBs
+    ZTERMA8GA1UECwwIUGVyc29uYWwxKjAoBgNVBAMMIWhhcmJvcjIuam9pbnRsYWIu
+    ZngubnNuLXJkbmV0Lm5ldDCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIB
+    AMj6Y0z8S9f9Fn/ESAK6Q7SkcCN+TKaC1AfqZjgVy7eR9L6K/7KKwzd02sUcHwDy
+    ALCO9rkFxW/Pix2whuIovtPXO2CnbVoHiBHC/A5fe7w0mahXC3kPI5AeHIyqeVVu
+    mif8f+y8vmZV7VujhpCb3sYaA4Z9hfXHuXAhaPoGjGLcZRRLtSbr1V129BO7DVV7
+    KVkyrLByBf/nXW9DoYVrFWYercsicCx7j8XKGz/bEClNFNXxSgphpETJO4LEG+tp
+    bG3lsBkI0pd6HJVccbuRSKVr09W+L2KfPX+m4p+9wSdGZgDhh6wrC5iohe32R4n3
+    9ItGWm4YmbRU+phftF8FnMc4VD6Tmc4SDMvC14ARhd7nzKw8bp/+tMSZXspU9sIR
+    qYONmrcGeRZhotKZYMSlxz+0ey5FVNy/epqmFgh0tmvN6BorQbjgWPsFGAfI3B+o
+    NT8lGwgvF7Vzewtjyjr9sB2F3t28hVv1TwpgIVb1Fb3HpiLBnNYEirHjyWRC4Bc1
+    eZk3+yYAd3SyMZIiIu9dWJ/e3GqQej2nInq5vUPriFzKx5BvZ9o72WFyh9TrqU+F
+    YAuhkaMluv8hOgb07/d7Hs1vuacjeCeWcrpazO1hHEJiQhyYOOwS8pqSdS61il19
+    9830A9iBwIT0qvQXi7GDEwxBWJ7RH/hi0lIZRecry73PAgMBAAGjUzBRMB0GA1Ud
+    DgQWBBTd6skSbvJ7XqogK/cPQqqEitdAETAfBgNVHSMEGDAWgBTd6skSbvJ7Xqog
+    K/cPQqqEitdAETAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBDQUAA4ICAQBw
+    DAEPsBVefmZJxeN4sz0RPRV/Z/cEHo2mrOqIzsoIVKV/86T5eX2ClqCfX31fqOp+
+    E/ELFy5BMXOUBkso+Lk/sZ+Z0Nh39S1Dqwe8Ph/8/kakJ2MIHbaLVtnvqfgnTYg4
+    ndczuAv3lFVZEvsvZMXM6sFsXsKwQ5Jh4HyisfYmCOSXOCq5boUClcQjgdXRQYQo
+    Dxf9dCiajF9fSAKI3hh0RQ/z9ypTCaDHRBYZRCUWepi+pVRvUyrS4kmAt5Ygjbe+
+    SLG94QIeYGKP+wRJOo5vooML/AUaDLsw2JxbmhN4krADqSWwd8ZOruchbY6znblC
+    RPwscpyxyp19fPnAtX89GcpIjj7brscw5CwctN1oHOkR/mXQUmNvELPZGuujcqyQ
+    2NeQQzFovhG1NtzPHaQ0FAYXow38ii8q4NWv7Yin+9cstSHY+FG4y3iDo3n7r/U8
+    kUkfeLORlLVpuKVx5jIcjuxbyOjkOyFBOAVXVMEOgt1fRmYxyVTIDftQ9LQRzc/B
+    xV60mA2zKRDJrHb9nDI5MWrVMcyImBh2LFeILUg1BTzpE0VnUzcToyd80oU/bkw4
+    nXXU4z0ARHpExbS7gTme86aDMytV6/zHAyU2yQndadfvnsBoldOYCAob/Ax/V1nR
+    6UfhhTTE9sSCPAJ5zV20+4zfwTpmvwWSNVsTz/a5zQ==
+    -----END CERTIFICATE-----
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: assisted-service-config
+  namespace: multicluster-engine
+  labels:
+    app: assisted-service
+data:
+  PUBLIC_CONTAINER_REGISTRIES: "quay.io,registry.ci.openshift.org,registry.redhat.io"
+#  DISABLED_HOST_VALIDATIONS: sufficient-packet-loss-requirement-for-role
+---
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentServiceConfig
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    unsupported.agent-install.openshift.io/assisted-service-configmap: 'assisted-service-config'
+  name: agent
+  namespace: multicluster-engine
+spec:
+  databaseStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: ocs-storagecluster-cephfs
+  filesystemStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: ocs-storagecluster-cephfs
+  imageStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: ocs-storagecluster-cephfs
+  mirrorRegistryRef:
+    name: custom-registries
+  OSImageCACertRef:
+    name: image-service-additional-ca
+  osImages:
+  - cpuArchitecture: x86_64
+    openshiftVersion: "4.14"
+    rootFSUrl: https://10.23.223.72:88/rhcos-4.14.0-x86_64-live-rootfs.x86_64.img
+    url: https://10.23.223.72:88/rhcos-4.14.0-x86_64-live.x86_64.iso
+    version: 414.92.202310170514-0
+  - cpuArchitecture: x86_64
+    openshiftVersion: "4.16"
+    rootFSUrl: https://10.23.223.72:88/rhcos-4.16.0-x86_64-live-rootfs.x86_64.img
+    url: https://10.23.223.72:88/rhcos-4.16.0-x86_64-live.x86_64.iso
+    version: 416.92.202410170514-0

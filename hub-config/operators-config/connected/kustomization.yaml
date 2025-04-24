@@ -7,8 +7,7 @@ commonAnnotations:
 #  - 99_02_observability_storage.yaml
 resources:
   - 00_rhacmConfig.yaml
-#  - 01_aiConfig.yaml
-#  - 02_ai_config.yaml # this is required for the https RHCOS cache server use-case
+  - 01_aiConfig.yaml
   - 02_patchProvisioning.yaml
   - 03_mceConfig.yaml
   - 04_observabilityConfig.yaml
