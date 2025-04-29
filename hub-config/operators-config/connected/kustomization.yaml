@@ -10,7 +10,6 @@ resources:
   - 01_aiConfig.yaml
   - 02_patchProvisioning.yaml
   - 03_mceConfig.yaml
-  - 04_observabilityConfig.yaml
   - 05_gitopsServiceClusterConfig.yaml
   - 06_acmPerfSearch.yaml
   - 99_00_lsoConfig.yaml
