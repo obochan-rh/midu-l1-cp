@@ -1,10 +1,11 @@
----
 apiVersion: operator.open-cluster-management.io/v1
 kind: MultiClusterHub
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: '1'
     installer.open-cluster-management.io/mce-subscription-spec: '{"source": "redhat-operators"}'
+    argocd.argoproj.io/diff-options: IgnoreExtraneous
   name: multiclusterhub
   namespace: open-cluster-management
 spec:
@@ -15,26 +16,38 @@ spec:
     components:
     - enabled: true
       name: app-lifecycle
+      configOverrides: {}
     - enabled: true
       name: cluster-lifecycle
+      configOverrides: {}
     - enabled: true
       name: cluster-permission
+      configOverrides: {}
     - enabled: true
       name: console
+      configOverrides: {}
     - enabled: true
       name: grc
+      configOverrides: {}
     - enabled: true
       name: insights
+      configOverrides: {}
     - enabled: true
       name: multicluster-engine
+      configOverrides: {}
     - enabled: true
       name: multicluster-observability
+      configOverrides: {}
     - enabled: true
       name: search
+      configOverrides: {}
     - enabled: true
       name: submariner-addon
+      configOverrides: {}
     - enabled: true
       name: volsync
+      configOverrides: {}
     - enabled: false
       name: cluster-backup
+      configOverrides: {}
   separateCertificateManagement: false
