@@ -2,9 +2,13 @@
 apiVersion: multicluster.openshift.io/v1
 kind: MultiClusterEngine
 metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"
   name: multiclusterengine
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "0"
+    installer.multicluster.openshift.io/hub-size: Small
+    installer.open-cluster-management.io/edge-manager-enabled: "false"
+    installer.open-cluster-management.io/hub-size: Small
   labels:
     app.kubernetes.io/instance: hub-operators-config
     installer.name: multiclusterhub
@@ -14,32 +18,36 @@ spec:
   availabilityConfig: High
   overrides:
     components:
-    - enabled: true
-      name: local-cluster
-    - enabled: true
-      name: assisted-service
-    - enabled: true
-      name: cluster-lifecycle
-    - enabled: true
-      name: cluster-manager
-    - enabled: true
-      name: discovery
-    - enabled: true
-      name: hive
-    - enabled: true
-      name: server-foundation
-    - enabled: true
-      name: cluster-proxy-addon
-    - enabled: true
-      name: hypershift-local-hosting
-    - enabled: true
-      name: hypershift
-    - enabled: true
-      name: managedserviceaccount
-    - enabled: false
-      name: image-based-install-operator-preview
-    - enabled: true
-      name: console-mce
+    - name: local-cluster
+      enabled: true
+    - name: assisted-service
+      enabled: true
+    - name: cluster-lifecycle
+      enabled: true
+    - name: cluster-manager
+      enabled: true
+    - name: discovery
+      enabled: true
+    - name: hive
+      enabled: true
+    - name: server-foundation
+      enabled: true
+    - name: cluster-proxy-addon
+      enabled: true
+    - name: hypershift-local-hosting
+      enabled: true
+    - name: hypershift
+      enabled: true
+    - name: managedserviceaccount
+      enabled: true
+    - name: console-mce
+      enabled: true
+    - name: cluster-api-preview
+      enabled: false
+    - name: cluster-api-provider-aws-preview
+      enabled: false
+    - name: image-based-install-operator
+      enabled: false
   targetNamespace: multicluster-engine
   tolerations:
   - effect: NoSchedule
