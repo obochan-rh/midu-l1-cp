@@ -87,8 +87,8 @@ Beginning with RHACM 2.10, a specific label is required on each managed cluster 
 apiVersion: ran.openshift.io/v1
 kind: SiteConfig
 metadata:
-  name: "sno1"
-  namespace: "sno1"
+  name: "worker1"
+  namespace: "worker1"
 spec:
   baseDomain: "5g-deployment.lab"
   pullSecretRef:
@@ -96,13 +96,13 @@ spec:
   clusterImageSetNameRef: "ocp-417-version"
   sshPublicKey: "ssh-rsa AAAAB3... root@INBACRNRDL0102.workload.bos2.lab"
   clusters:
-  - clusterName: "sno1"
+  - clusterName: "worker1"
     networkType: "OVNKubernetes"
     clusterLabels:
       common: "ocp417"
       logicalGroup: "active"
       group-du-sno: ""
-      du-site: "sno1"
+      du-site: "worker1"
       du-zone: "europe"
       cloud: Other
       vendor: OpenShift
@@ -114,7 +114,7 @@ $ oc get managedclusters --show-labels
 ```
 Example output:
 ```sh
-sno1  true  https://api.sno1.5g-deployment.lab:6443  True  True  28m  app.kubernetes.io/instance=cluster-deployment,cloud=Other,vendor=OpenShift
+worker1  true  https://api.sno1.5g-deployment.lab:6443  True  True  28m  app.kubernetes.io/instance=cluster-deployment,cloud=Other,vendor=OpenShift
 ```
 
 ### Verifying Metrics Collector Deployment

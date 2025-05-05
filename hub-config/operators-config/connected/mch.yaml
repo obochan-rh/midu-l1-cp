@@ -1,0 +1,242 @@
+apiVersion: operator.open-cluster-management.io/v1
+kind: MultiClusterHub
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "1"
+    installer.open-cluster-management.io/mce-subscription-spec: '{"source": "redhat-operators"}'
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"operator.open-cluster-management.io/v1","kind":"MultiClusterHub","metadata":{"annotations":{"argocd.argoproj.io/sync-options":"SkipDryRunOnMissingResource=true","argocd.argoproj.io/sync-wave":"1","installer.open-cluster-management.io/mce-subscription-spec":"{\"source\": \"redhat-operators\"}"},"labels":{"app.kubernetes.io/instance":"hub-operators-config"},"name":"multiclusterhub","namespace":"open-cluster-management"},"spec":{"availabilityConfig":"High","enableClusterBackup":false,"ingress":{},"overrides":{"components":[{"enabled":true,"name":"app-lifecycle"},{"enabled":true,"name":"cluster-lifecycle"},{"enabled":true,"name":"cluster-permission"},{"enabled":true,"name":"console"},{"enabled":true,"name":"grc"},{"enabled":true,"name":"insights"},{"enabled":true,"name":"multicluster-engine"},{"enabled":true,"name":"multicluster-observability"},{"enabled":true,"name":"search"},{"enabled":true,"name":"submariner-addon"},{"enabled":true,"name":"volsync"},{"enabled":false,"name":"cluster-backup"}]},"separateCertificateManagement":false}}
+  creationTimestamp: "2025-04-23T14:52:14Z"
+  finalizers:
+  - finalizer.operator.open-cluster-management.io
+  generation: 1203
+  labels:
+    app.kubernetes.io/instance: hub-operators-config
+  name: multiclusterhub
+  namespace: open-cluster-management
+  resourceVersion: "9220230"
+  uid: 5d1478ec-8392-4d08-ba49-01749ed746ba
+spec:
+  availabilityConfig: High
+  enableClusterBackup: false
+  ingress: {}
+  overrides:
+    components:
+    - configOverrides: {}
+      enabled: true
+      name: app-lifecycle
+    - configOverrides: {}
+      enabled: true
+      name: cluster-lifecycle
+    - configOverrides: {}
+      enabled: true
+      name: cluster-permission
+    - configOverrides: {}
+      enabled: true
+      name: console
+    - configOverrides: {}
+      enabled: true
+      name: grc
+    - configOverrides: {}
+      enabled: true
+      name: insights
+    - configOverrides: {}
+      enabled: true
+      name: multicluster-engine
+    - configOverrides: {}
+      enabled: true
+      name: multicluster-observability
+    - configOverrides: {}
+      enabled: true
+      name: search
+    - configOverrides: {}
+      enabled: true
+      name: submariner-addon
+    - configOverrides: {}
+      enabled: true
+      name: volsync
+    - configOverrides: {}
+      enabled: false
+      name: cluster-backup
+    - configOverrides: {}
+      enabled: false
+      name: siteconfig
+    - configOverrides: {}
+      enabled: false
+      name: edge-manager-preview
+  separateCertificateManagement: false
+status:
+  components:
+    cluster-permission:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:01:10Z"
+      name: cluster-permission
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    console-chart-console-v2:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:01:30Z"
+      name: console-chart-console-v2
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    grc-policy-addon-controller:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:00:44Z"
+      name: grc-policy-addon-controller
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    grc-policy-propagator:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:00:55Z"
+      name: grc-policy-propagator
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    insights-client:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:01:25Z"
+      name: insights-client
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    insights-metrics:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:01:10Z"
+      name: insights-metrics
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    klusterlet-addon-controller-v2:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:00:55Z"
+      name: klusterlet-addon-controller-v2
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    multicluster-engine:
+      kind: MultiClusterEngine
+      lastTransitionTime: "2025-04-29T13:42:37Z"
+      name: multiclusterengine
+      reason: ComponentsUnavailable
+      status: "False"
+      type: Available
+    multicluster-engine-csv:
+      kind: ClusterServiceVersion
+      lastTransitionTime: "2025-04-29T13:42:37Z"
+      message: install strategy completed with no errors
+      name: multicluster-engine.v2.8.1
+      reason: InstallSucceeded
+      status: "True"
+      type: Available
+    multicluster-engine-sub:
+      kind: Subscription
+      lastTransitionTime: "2025-04-29T13:42:37Z"
+      message: 'installPlanApproval: Automatic. installPlan: multicluster-engine/install-wz7ff'
+      name: multicluster-engine
+      reason: AtLatestKnown
+      status: "True"
+      type: Available
+    multicluster-observability-operator:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:00:55Z"
+      name: multicluster-observability-operator
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    multicluster-operators-application:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T14:55:44Z"
+      name: multicluster-operators-application
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    multicluster-operators-channel:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T14:53:29Z"
+      name: multicluster-operators-channel
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    multicluster-operators-hub-subscription:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T14:55:29Z"
+      name: multicluster-operators-hub-subscription
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    multicluster-operators-standalone-subscription:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T14:54:29Z"
+      name: multicluster-operators-standalone-subscription
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    multicluster-operators-subscription-report:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T14:54:30Z"
+      name: multicluster-operators-subscription-report
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    search-api:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:01:37Z"
+      name: search-api
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    search-collector:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:01:37Z"
+      name: search-collector
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    search-indexer:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:01:57Z"
+      name: search-indexer
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    search-postgres:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:01:47Z"
+      name: search-postgres
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    search-v2-operator-controller-manager:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:01:15Z"
+      name: search-v2-operator-controller-manager
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    volsync-addon-controller:
+      kind: Deployment
+      lastTransitionTime: "2025-04-23T15:00:59Z"
+      name: volsync-addon-controller
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+  conditions:
+  - lastTransitionTime: "2025-04-29T08:01:36Z"
+    lastUpdateTime: "2025-04-29T08:01:36Z"
+    message: Hub is reconciling.
+    reason: MCHReconciling
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2025-04-29T13:42:37Z"
+    lastUpdateTime: "2025-04-29T13:42:37Z"
+    message: Not all hub components ready.
+    reason: ComponentsUnavailable
+    status: "False"
+    type: Complete
+  currentVersion: 2.13.2
+  desiredVersion: 2.13.2
+  phase: Pending
