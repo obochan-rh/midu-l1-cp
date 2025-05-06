@@ -240,3 +240,9 @@ Opening in existing browser session.
 2025-05-06 08:59:59,206 [592141098]   WARN - com.jediterm.terminal.TerminalMode - Mode InsertMode is not implemented, setting to false
 2025-05-06 09:05:11,815 [592453707]   WARN - com.jediterm.terminal.TerminalMode - Mode InsertMode is not implemented, setting to false
 2025-05-06 09:05:11,928 [592453820]   WARN - com.jediterm.terminal.TerminalMode - Mode InsertMode is not implemented, setting to false
+2025-05-06 09:48:39,577 [595061469]   WARN - com.jediterm.terminal.TerminalMode - Mode InsertMode is not implemented, setting to false
+2025-05-06 09:48:39,695 [595061587]   WARN - com.jediterm.terminal.TerminalMode - Mode InsertMode is not implemented, setting to false
+2025-05-06 10:01:50,232 [595852124] SEVERE - com.jediterm.terminal.model.TerminalTextBuffer - Attempt to get line out of bounds: 13 >= 13
+2025-05-06 10:01:50,233 [595852125] SEVERE - com.jediterm.terminal.model.TerminalTextBuffer - Attempt to get line out of bounds: 13 >= 13
+2025-05-06 10:05:41,974 [596083866] SEVERE - com.jediterm.terminal.model.TerminalTextBuffer - Attempt to get line out of bounds: 13 >= 13
+2025-05-06 10:05:41,974 [596083866] SEVERE - com.jediterm.terminal.model.TerminalTextBuffer - Attempt to get line out of bounds: 13 >= 13
