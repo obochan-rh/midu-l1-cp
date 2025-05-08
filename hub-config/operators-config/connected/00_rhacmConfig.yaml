@@ -1,4 +1,4 @@
-iapiVersion: operator.open-cluster-management.io/v1
+apiVersion: operator.open-cluster-management.io/v1
 kind: MultiClusterHub
 metadata:
   annotations:

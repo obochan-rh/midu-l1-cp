@@ -5,5 +5,5 @@ metadata:
   name: redhat-operators
   namespace: openshift-marketplace
 spec:
-  image: quay-2.l1pz-espoo.example.com/unbox/redhat/redhat-operator-index:v4.16
+  image: registry.redhat.io/redhat/redhat-operator-index:v4.16 
   sourceType: grpc
