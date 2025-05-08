@@ -1,11 +1,11 @@
----
-apiVersion: operator.open-cluster-management.io/v1
+iapiVersion: operator.open-cluster-management.io/v1
 kind: MultiClusterHub
 metadata:
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: '1'
     installer.open-cluster-management.io/mce-subscription-spec: '{"source": "redhat-operators"}'
+    argocd.argoproj.io/diff-options: IgnoreExtraneous
   name: multiclusterhub
   namespace: open-cluster-management
 spec:
@@ -14,28 +14,41 @@ spec:
   ingress: {}
   overrides:
     components:
-      - enabled: true
-        name: app-lifecycle
-      - enabled: true
-        name: cluster-lifecycle
-      - enabled: true
-        name: cluster-permission
-      - enabled: true
-        name: console
-      - enabled: true
-        name: grc
-      - enabled: true
-        name: insights
-      - enabled: true
-        name: multicluster-engine
-      - enabled: true
-        name: multicluster-observability
-      - enabled: true
-        name: search
-      - enabled: true
-        name: submariner-addon
-      - enabled: true
-        name: volsync
-      - enabled: false
-        name: cluster-backup
+    - enabled: true
+      name: app-lifecycle
+      configOverrides: {}
+    - enabled: true
+      name: cluster-lifecycle
+      configOverrides: {}
+    - enabled: true
+      name: cluster-permission
+      configOverrides: {}
+    - enabled: true
+      name: console
+      configOverrides: {}
+    - enabled: true
+      name: grc
+      configOverrides: {}
+    - enabled: true
+      name: insights
+      configOverrides: {}
+    - enabled: true
+      name: multicluster-engine
+      configOverrides: {}
+    - enabled: true
+      name: multicluster-observability
+      configOverrides: {}
+    - enabled: true
+      name: search
+      configOverrides: {}
+    - enabled: true
+      name: submariner-addon
+      configOverrides: {}
+    - enabled: true
+      name: volsync
+      configOverrides: {}
+    - enabled: false
+      name: cluster-backup
+      configOverrides: {}
   separateCertificateManagement: false
+
