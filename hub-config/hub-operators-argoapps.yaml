@@ -11,7 +11,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: hub-config/operators-deployment
-    repoURL: 'https://github.com/obochan-rh/midu16/l1-cp.git'
+    repoURL: 'https://github.com/obochan-rh/midu-l1-cp.git'
     targetRevision: ofersamsungran-test 
   project: default
   syncPolicy:
@@ -37,7 +37,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: hub-config/operators-config/connected
-    repoURL: 'https://github.com/obochan-rh/midu16/l1-cp.git'
+    repoURL: 'https://github.com/obochan-rh/midu-l1-cp.git'
     targetRevision: ofersamsungran-test 
   project: default
   syncPolicy:

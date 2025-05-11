@@ -4,6 +4,9 @@ kind: OCSInitialization
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  labels:
+    app.kubernetes.io/instance: hub-operators-config
   name: ocsinit
   namespace: openshift-storage
 spec:
@@ -14,6 +17,9 @@ kind: StorageCluster
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  labels:
+    app.kubernetes.io/instance: hub-operators-config
   name: ocs-storagecluster
   namespace: openshift-storage
 spec:
@@ -90,6 +96,9 @@ kind: StorageSystem
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  labels:
+    app.kubernetes.io/instance: hub-operators-config    
   finalizers:
   - storagesystem.odf.openshift.io
   name: ocs-storagecluster-storagesystem
