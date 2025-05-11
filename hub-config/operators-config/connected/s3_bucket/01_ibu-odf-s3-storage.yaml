@@ -6,7 +6,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "20"
   labels:
     kubernetes.io/metadata.name: ibu-odf-s3-storage
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource
   name: ibu-odf-s3-storage
 spec:
   finalizers:
@@ -17,7 +17,7 @@ kind: NooBaa
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "20"
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource
   name: noobaa
   namespace: ibu-odf-s3-storage
 spec:
