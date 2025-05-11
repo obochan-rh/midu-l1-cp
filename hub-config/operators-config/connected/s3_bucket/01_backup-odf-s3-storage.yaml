@@ -4,6 +4,7 @@ kind: Namespace
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "20"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   labels:
     kubernetes.io/metadata.name: backup-odf-s3-storage
   name: backup-odf-s3-storage
@@ -16,6 +17,7 @@ kind: NooBaa
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "20"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: noobaa
   namespace: backup-odf-s3-storage
 spec:
@@ -39,6 +41,7 @@ kind: ObjectBucketClaim
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "20"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: backup-bucket
   namespace: backup-odf-s3-storage
 spec:
