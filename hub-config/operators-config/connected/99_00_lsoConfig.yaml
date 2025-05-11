@@ -15,7 +15,7 @@ spec:
       - key: kubernetes.io/hostname
         operator: In
         values:
-        - master0.ran.samsung.bos2.lab
+        - master3.ran.samsung.bos2.lab
         - master1.ran.samsung.bos2.lab
         - master2.ran.samsung.bos2.lab
   storageClassDevices:
