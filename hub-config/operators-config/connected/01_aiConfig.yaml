@@ -3,7 +3,7 @@ kind: AgentServiceConfig
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
-    unsupported.agent-install.openshift.io/assisted-service-configmap: 'assisted-service-config'
+    unsupported.agent-install.openshift.io/assisted-service-configmap: image-service-additional-ca
   name: agent
   namespace: multicluster-engine
 spec:
