@@ -8,19 +8,36 @@ spec:
     replicas: 3
     version: 3.8.0
     config:
-      log.message.format.version: "3.9"
-      inter.broker.protocol.version: "3.9"
+      log.message.format.version: "3.8"
+      inter.broker.protocol.version: "3.8"  # Ensure this is also set to 3.8
     listeners:
       - name: plain
         port: 9092
-        type: internal
         tls: false
+        type: internal
+      - name: tls
+        port: 9093
+        tls: true
+        type: internal
+      - name: external
+        port: 9094
+        tls: true
+        type: route
     storage:
-      type: ephemeral
+      type: jbod
+      volumes:
+        - class: ocs-storagecluster-ceph-rbd
+          deleteClaim: true
+          id: 0
+          size: 50Gi
+          type: persistent-claim
   zookeeper:
     replicas: 3
     storage:
-      type: ephemeral
+      class: ocs-storagecluster-ceph-rbd
+      deleteClaim: true
+      size: 40Gi
+      type: persistent-claim
   entityOperator:
     topicOperator: {}
     userOperator: {}
