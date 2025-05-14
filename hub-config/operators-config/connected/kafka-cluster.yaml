@@ -8,8 +8,8 @@ spec:
     replicas: 3
     version: 3.8.0
     config:
-      log.message.format.version: "3.8"
-      inter.broker.protocol.version: "3.8"
+      log.message.format.version: "3.9"
+      inter.broker.protocol.version: "3.9"
     listeners:
       - name: plain
         port: 9092
