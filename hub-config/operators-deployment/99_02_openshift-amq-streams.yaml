@@ -47,50 +47,9 @@ kind: Subscription
 metadata:
   name: amq-streams
   namespace: openshift-amq-streams
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"
 spec:
   installPlanApproval: Automatic
   channel: stable
   name: amq-streams
   source: redhat-operators
   sourceNamespace: openshift-marketplace
----
-apiVersion: kafka.strimzi.io/v1beta2
-kind: Kafka
-metadata:
-  name: my-kafka-cluster
-  namespace: openshift-amq-streams
-  annotations:
-    argocd.argoproj.io/sync-wave: "5"
-spec:
-  kafka:
-    replicas: 1
-    listeners:
-      - name: plain
-        port: 9092
-        type: internal
-        tls: false
-    storage:
-      type: ephemeral
-  zookeeper:
-    replicas: 1
-    storage:
-      type: ephemeral
-  entityOperator:
-    topicOperator: {}
-    userOperator: {}
----
-apiVersion: kafka.strimzi.io/v1beta2
-kind: KafkaTopic
-metadata:
-  name: logs-topic
-  namespace: openshift-amq-streams
-  labels:
-    strimzi.io/cluster: my-kafka-cluster
-  annotations:
-    argocd.argoproj.io/sync-wave: "10"
-spec:
-  partitions: 3
-  replicas: 1
-  topicName: logs-topic
