@@ -6,6 +6,7 @@ metadata:
   annotations:
     metallb.universe.tf/address-pool: default
     argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   namespace: openshift-amq-streams
 spec:
   kafka:
@@ -59,6 +60,9 @@ kind: KafkaTopic
 metadata:
   name: logs-topic
   namespace: openshift-amq-streams
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   labels:
     strimzi.io/cluster: my-kafka-cluster
 spec:
