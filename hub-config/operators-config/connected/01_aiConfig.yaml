@@ -1,4 +1,63 @@
 ---
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: custom-registries
+  namespace: multicluster-engine
+  labels:
+    app: assisted-service
+data:
+  ca-bundle.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIDITCCAgmgAwIBAgIUFGidv/NtlCDLk8XnNvvDYVdK6p8wDQYJKoZIhvcNAQEL
+    BQAwHzEdMBsGA1UEAwwUcmVnaXN0cnkub2NwNC1oZWxwZXIwIBcNMjQwNDE1MDE1
+    NzU0WhgPMjA1MTA5MDEwMTU3NTRaMB8xHTAbBgNVBAMMFHJlZ2lzdHJ5Lm9jcDQt
+    aGVscGVyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkEJ+TglW6q7N
+    dhBoeiRjEMjTL/wyctOzpEw8e7DJUr33ORfiOIxzC0s1CH/r0CSFik1ewJGXWemn
+    wOONF1XZLlwJNT1bWqnzutiBk8HOJ8PQO5YiFujxcRLY504+wEjdW6oHf38lo3aQ
+    Dp3ML4ymzOiFIZlmVkGxxUrVTj78AYxXwLXnUBc3lDzp4PzxsY4frPUZiCon57Wi
+    nabWQfZQR6MK9YJpWd9fKcNw+r7T8rz+4M99AYm3FNiWWWMXn7Z5SsmE7p4a+Clw
+    WZP/jth8UDLIFCSRA1kR/TeL36zuoSsOWPn6ZmokUfseOcaMjvGretrdYWLw1JBQ
+    /5V0iMGwwQIDAQABo1MwUTAdBgNVHQ4EFgQUm4UZ6u2SmbQse/HuNjoXFJE4Q94w
+    HwYDVR0jBBgwFoAUm4UZ6u2SmbQse/HuNjoXFJE4Q94wDwYDVR0TAQH/BAUwAwEB
+    /zANBgkqhkiG9w0BAQsFAAOCAQEAiev+j4gI5rsEgcTdTbAeJgmzzwJNn/aPcA/Q
+    SyhhW2etJgpamduxkIX78dTPoZ55gE7S3fmrx8E8hi16ucbqNxDQGzkDH34uOf1U
+    s8qVB6VA/DSew6nCPxfG39Z+uzTjGpzC50CF1d3Td3rKuTRz5440nm3/wPSVpByS
+    Im+95nyKdPMJMfgUaNDTc8ARV1k1GEwcgIF1P9vbmS5fikJFZcAh0QE4JdmS5RtV
+    6yNtAhJISPyszhXFlCbBGDYd3cbkXMF9x5G02/mAVKMOslp5dcYrlFOzFIngIfuF
+    qaT90m9+yD6dw/C8z5rrkCDy8G8wmfd2MhHeAoyP8vWmO+vJZQ==
+    -----END CERTIFICATE-----
+  registries.conf: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/rhel9"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/rhacm2"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/openshift4"
+
+    [[registry]]
+    prefix = ""
+    location = "registry.redhat.io/multicluster-engine"
+
+    [[registry]]
+    prefix = ""
+    location = "quay.io/openshift-release-dev/ocp-release"
+
+    [[registry]]
+    prefix = ""
+    location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
