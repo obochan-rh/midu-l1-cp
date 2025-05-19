@@ -47,6 +47,8 @@ kind: Subscription
 metadata:
   name: amq-streams
   namespace: openshift-amq-streams
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   installPlanApproval: Automatic
   channel: stable
