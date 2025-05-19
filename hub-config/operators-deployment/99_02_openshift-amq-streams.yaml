@@ -62,7 +62,7 @@ metadata:
   name: my-kafka-cluster
   namespace: openshift-amq-streams
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   kafka:
     replicas: 1
@@ -89,7 +89,7 @@ metadata:
   labels:
     strimzi.io/cluster: my-kafka-cluster
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   partitions: 3
   replicas: 1
