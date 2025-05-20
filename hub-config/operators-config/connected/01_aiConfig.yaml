@@ -52,6 +52,8 @@ data:
     [[registry]]
     prefix = ""
     location = "quay.io/openshift-release-dev/ocp-release"
+    mirror-by-digest-only = true
+    mirror = "quay.io/openshift-release-dev/ocp-release"
 
     [[registry]]
     prefix = ""
