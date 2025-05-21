@@ -7,3 +7,8 @@ metadata:
   name: provisioning-configuration
 spec:
   watchAllNamespaces: true
+  provisioningInterface: "ens3"
+  provisioningIP: "172.22.0.3"
+  provisioningDHCPRange: "172.22.0.10,172.22.0.100"
+  provisioningNetworkCIDR: "172.22.0.0/24"
+  provisioningNetwork: "Unmanaged"
