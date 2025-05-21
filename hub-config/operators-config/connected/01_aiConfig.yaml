@@ -54,7 +54,7 @@ spec:
     rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.16/latest/rhcos-4.16.36-x86_64-live-rootfs.x86_64.img 
     url: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.16/latest/rhcos-4.16.36-x86_64-live.x86_64.iso
     version: 416.94.202410292028-0
-    releaseImage: quay.io/openshift-release-dev/ocp-release@sha256:5b71d2917773c2fddcd0415fbc96457188df2ba87d71680330aa4cb96f4501b5
+    #  releaseImage: quay.io/openshift-release-dev/ocp-release@sha256:5b71d2917773c2fddcd0415fbc96457188df2ba87d71680330aa4cb96f4501b5
   # mirrorRegistryRef:
 
 ---    
