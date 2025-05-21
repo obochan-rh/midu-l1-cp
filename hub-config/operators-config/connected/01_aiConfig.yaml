@@ -4,7 +4,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "1"
   name: custom-registries
   namespace: multicluster-engine
   labels:
@@ -47,9 +47,14 @@ data:
 
     [[registry]]
     location = "quay.io/openshift-release-dev/ocp-release"
+    mirror-by-digest-only = true
+    pull-from = "quay.io/openshift-release-dev/ocp-release"
 
     [[registry]]
     location = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+    mirror-by-digest-only = true
+    pull-from = "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+
 
 ---
 apiVersion: v1
@@ -63,6 +68,9 @@ metadata:
     app: assisted-service
 data:
   PUBLIC_CONTAINER_REGISTRIES: "quay.io,registry.ci.openshift.org,registry.redhat.io"
+  OPENSHIFT_VERSIONS: |
+     {"4.16":{"display_name":"4.16.20","release_image":"quay.io/openshift-release-dev/ocp-release@sha256:5b71d2917773c2fddcd0415fbc96457188df2ba87d71680330aa4cb96f4501b5","cpu_architectures":["x86_64"],"version":"4.16.20","default":true,"support_level":"production"}}
+
 #  DISABLED_HOST_VALIDATIONS: sufficient-packet-loss-requirement-for-role
 ---
 
@@ -105,3 +113,68 @@ spec:
     rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.16/latest/rhcos-4.16.36-x86_64-live-rootfs.x86_64.img 
     url: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.16/latest/rhcos-4.16.36-x86_64-live.x86_64.iso
     version: 416.94.202410292028-0
+    releaseImage: quay.io/openshift-release-dev/ocp-release@sha256:5b71d2917773c2fddcd0415fbc96457188df2ba87d71680330aa4cb96f4501b5
+
+
+---    
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: assisted-service-restart-sa
+  namespace: multicluster-engine
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: assisted-service-restart-role
+  namespace: multicluster-engine
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: assisted-service-restart-binding
+  namespace: multicluster-engine
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+subjects:
+- kind: ServiceAccount
+  name: assisted-service-restart-sa
+  namespace: multicluster-engine
+roleRef:
+  kind: Role
+  name: assisted-service-restart-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: assisted-service-restart
+  namespace: multicluster-engine
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      serviceAccountName: assisted-service-restart-sa
+      restartPolicy: Never
+      containers:
+      - name: restart
+        image: bitnami/kubectl:1.29
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Restarting assisted-service deployment"
+          kubectl rollout restart deployment/assisted-service -n multicluster-engine
+
