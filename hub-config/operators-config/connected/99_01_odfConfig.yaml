@@ -90,6 +90,10 @@ spec:
     preparePlacement: {}
     replica: 3
     resources: {}
+    tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
 ---
 apiVersion: odf.openshift.io/v1alpha1
 kind: StorageSystem
