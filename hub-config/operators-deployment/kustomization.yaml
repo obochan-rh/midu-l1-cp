@@ -6,7 +6,7 @@ resources:
   - 02_mce_deployment.yaml
   - 03_observability_deployment.yaml
   - 99_00_lso_deployment.yaml
-  - 99_01_odf_deployment.yaml
+    #  - 99_01_odf_deployment.yaml
   - 99_02_openshift-amq-streams.yaml
   - 99_02_openshift-cluster-logging.yaml
   - 99_02_openshift-oadp-operator.yaml
