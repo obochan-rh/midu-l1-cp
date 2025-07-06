@@ -17,7 +17,7 @@ kind: NooBaa
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "20"
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: noobaa
   namespace: backup-odf-s3-storage
 spec:
