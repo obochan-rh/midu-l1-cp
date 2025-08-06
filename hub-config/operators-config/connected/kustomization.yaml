@@ -10,11 +10,13 @@ resources:
   - 01_aiConfig.yaml
   - 02_patchProvisioning.yaml
   - 03_mceConfig.yaml
+  - 04_observabilityConfig.yaml
   - 05_gitopsServiceClusterConfig.yaml
   - 06_acmPerfSearch.yaml
   - 99_00_lsoConfig.yaml
   - 99_01_odfConfig.yaml 
   - 99_02_ocsStorageClusterCephfs.yaml
+  - 99_02_observabilityStorage.yaml
   - 99_03_openshiftAmqStreams.yaml
   - 99_03_openshiftClusterLoggingv604.yaml
   - ./s3_bucket/01_ibu-odf-s3-storage.yaml
