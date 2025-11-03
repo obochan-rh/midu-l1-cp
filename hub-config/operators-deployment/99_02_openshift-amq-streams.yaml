@@ -48,7 +48,7 @@ metadata:
   namespace: openshift-amq-streams
 spec:
   installPlanApproval: Automatic
-  channel: stable
+  channel: amq-streams-2.9.x
   name: amq-streams
   source: redhat-operators
   sourceNamespace: openshift-marketplace
